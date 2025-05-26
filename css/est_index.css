@@ -116,7 +116,7 @@
   }
   
   .texto-quienes {
-    width: 56%;
+    width: 50%;
     min-width: 320px;
     font-size: 1.3rem;
     font-weight: 300;
@@ -159,7 +159,7 @@
   }
   
   .fundamento-item {
-    max-width: 280px;
+    max-width: 250px;
     display: flex;              /* Añadido */
     flex-direction: column;     /* Añadido */
     align-items: center;        /* Añadido */

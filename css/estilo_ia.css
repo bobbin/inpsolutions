@@ -72,13 +72,13 @@ a {
   text-align: center;
   font-family: 'Josefin Sans', sans-serif;
   color: #fff;
-  height: 45vh;
+  height: 60vh;
 }
 
   .titulo-ia {
-    font-size: 3.8rem;
+    font-size: 3rem;
     font-weight: 1000;
-    margin-bottom: 60px;
+    margin-bottom: 50px;
     font-family: 'Josefin Sans', sans-serif;
   }
   
@@ -97,7 +97,7 @@ a {
   .img-ia,
   .img-ia-ramon {
     width: auto;
-    height: 130px; /* ajusta este valor si hace falta */
+    height: 100px; /* ajusta este valor si hace falta */
     margin-bottom: 25px;
     object-fit: contain;
     display: block;
