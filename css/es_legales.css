@@ -5,6 +5,37 @@ body {
     color: #333;
   }
 
+  .nav-inpsolutions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: white;
+  }
+  
+  a {
+    margin-left: 10%;
+  }
+
+  .logo-inp{
+    height: 140px;
+  }
+  
+  
+  .menu-inp {
+    display: flex;
+    gap: 40px;
+    margin-right: 20%;
+  }
+  
+  .menu-inp a {
+    text-decoration: none;
+    color: #666;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+  
   .container {
     width: 80%;
     margin: 50px auto;
