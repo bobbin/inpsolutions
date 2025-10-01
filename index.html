@@ -1,195 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/es_index.css">
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/es_index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"> 
+
+  <!-- ===== Estilos: Barra de cookies + Modal de preferencias ===== -->
+  <style>
+    :root{
+      --c-primary:#1f775a;         /* VERDE corporativo para Aceptar */
+      --c-primary-600:#19664d;
+      --c-primary-700:#145641;
+
+      --c-bg:#ffffff;
+      --c-text:#1f2937;
+      --c-muted:#6b7280;
+      --c-border:#e5e7eb;
+
+      --btn-dark:#222;             /* Rechazar oscuro */
+      --btn-dark-hover:#111;
+
+      --overlay: rgba(0,0,0,.55);
+      --panel-bg:#14171c;          /* modal oscuro */
+      --panel-text:#e6e7e9;
+      --panel-border:#2a2f36;
+    }
+
+    /* ---- BARRA INFERIOR ---- */
+    .ckbar{
+      position:fixed; left:0; right:0; bottom:0; z-index:9999;
+      background:var(--c-bg);
+      border-top:1px solid var(--c-border);
+      box-shadow:0 -8px 20px rgba(0,0,0,.06);
+      transform: translateY(100%);
+      transition: transform .35s ease;
+      font-family:"Josefin Sans","Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--c-text);
+    }
+    .ckbar[aria-hidden="false"]{ transform: translateY(0); }
+
+    .ckbar__wrap{
+      max-width:1200px; margin:0 auto; padding:14px 16px;
+      display:grid; grid-template-columns: 1fr auto; gap:16px; align-items:center;
+    }
+    .ckbar p{ margin:0; line-height:1.45; }
+    .ckbar a{ color:var(--c-text); text-decoration:underline; }
+    .ckbar__btns{ display:flex; gap:12px; align-items:center; }
+
+    .ckbtn{ padding:10px 16px; border-radius:6px; font-weight:700; cursor:pointer; border:0; }
+    .ckbtn--outline{ background:#fff; border:2px solid var(--c-border); color:#000 !important; } /* Preferencias SIEMPRE blanco */
+    .ckbtn--dark{ background:var(--btn-dark); color:#fff; }
+    .ckbtn--dark:hover{ background:var(--btn-dark-hover); }
+    .ckbtn--primary{ background:var(--c-primary); color:#fff; }
+    .ckbtn--primary:hover{ background:var(--c-primary-600); }
+
+    /* ---- MODAL PREFERENCIAS ---- */
+    .ckoverlay{
+      position:fixed; inset:0; background:var(--overlay); display:none; z-index:10000;
+      align-items:center; justify-content:center; padding:24px;
+    }
+    .ckoverlay[aria-hidden="false"]{ display:flex; }
+
+    .ckmodal{
+      background:var(--panel-bg); color:var(--panel-text);
+      max-width:760px; width:100%; max-height:85vh; overflow:auto;
+      border-radius:10px; box-shadow:0 20px 60px rgba(0,0,0,.25);
+      border:1px solid var(--panel-border);
+      font-family:"Josefin Sans","Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    .ckmodal__header{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:18px 20px; border-bottom:1px solid var(--panel-border);
+    }
+    .ckmodal__title{ margin:0; font-size:1.1rem; font-weight:800; }
+    /* ✕ sin fondo, sin borde, icono blanco */
+    .ckmodal__close{
+      background:transparent; border:none; color:#fff; 
+      width:36px; height:36px; border-radius:50%; cursor:pointer;
+      font-size:22px; line-height:32px; text-align:center;
+    }
+    .ckmodal__close:hover{ opacity:.85; }
+
+    .ckmodal__body{ padding:18px 20px 4px 20px; }
+    .ckcat{
+      border:1px solid var(--panel-border); border-radius:10px; padding:14px 14px; margin-bottom:12px;
+      background:#0f1418;
+    }
+    .ckcat__head{ display:flex; gap:10px; align-items:flex-start; margin-bottom:6px; }
+    .ckcat__head strong{ font-weight:800; }
+    .ckcat input[type="checkbox"]{ margin-top:3px; width:18px; height:18px; accent-color:var(--c-primary); }
+    .ckcat--locked input{ opacity:.7; }
+    .ckcat .ck-muted{ color:#cbd1d6; }
+
+    .ckmodal__footer{
+      padding:16px 20px 20px 20px; display:flex; gap:12px; justify-content:flex-end; align-items:center;
+      border-top:1px solid var(--panel-border);
+    }
+    .ckbtn--green{ background:var(--c-primary); color:#fff; }  /* en este proyecto = VERDE */
+    .ckbtn--green:hover{ background:var(--c-primary-600); }
+
+    @media (max-width: 640px){
+      .ckbar__wrap{ grid-template-columns:1fr; }
+      .ckmodal__footer{ flex-direction:column; align-items:stretch; }
+      .ckbtn{ width:100%; }
+    }
+
+    /* Modo oscuro del sistema: mantener Preferencias en blanco */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --c-bg:#111418; --c-text:#e6e7e9; --c-muted:#afb3b9; --c-border:#2a2f36;
+      }
+      .ckbar a{ color:#d0f1e4; }
+      .ckbtn--outline{ background:#fff; border-color:#e5e7eb; color:#000 !important; }
+    }
+  </style>
+  <!-- ===== Fin estilos ===== -->
 </head>
 <body>
 
-    <header class="hero-inpsolutions">
-        <div class="nav-inpsolutions">
-          <a href="./index.html"><img src="./imagenes/logoinp.png" alt="Logo INP Solutions" class="logo-inp"></a>
-          <nav class="menu-inp">
-            <a href="#">XTENSA</a>
-            <a href="#">SCRAPP</a>
-            <a href="./ia.html">IA</a>
-            <a href="./inpronet.html">INPRONET</a>
-          </nav>
-        </div>
-      
-        <div class="contenido-hero">
-          <h4>INPRONET SOLUTIONS</h4>
-          <h1>TRANSFORMACIÓN DIGITAL EN<br>MATERIA MEDIOAMBIENTAL</h1>
-        </div>
-    </header>
+  <header class="hero-inpsolutions">
+    <div class="nav-inpsolutions">
+      <a href="./index.html"><img src="./imagenes/logoinp.png" alt="Logo INP Solutions" class="logo-inp"></a>
+      <nav class="menu-inp">
+        <a href="#">XTENSA</a>
+        <a href="#">SCRAPP</a>
+        <a href="./ia.html">IA</a>
+        <a href="./inpronet.html">INPRONET</a>
+      </nav>
+    </div>
+  
+    <div class="contenido-hero">
+      <h4>INPRONET SOLUTIONS</h4>
+      <h1>TRANSFORMACIÓN DIGITAL EN<br>MATERIA MEDIOAMBIENTAL</h1>
+    </div>
+  </header>
 
-    <section class="seccion-quienes">
-        <div class="contenido-quienes">
-          <div class="imagen-quienes">
-            <img src="./imagenes/logoia.png" alt="Inteligencia Artificial aplicada al medioambiente">
-          </div>
-          <div class="texto-quienes">
-            <h2>QUIÉNES SOMOS</h2>
-            <p>
-              Inpronet Solutions es una empresa perteneciente al grupo Inproeco, surge por la necesidad de cubrir la actual demanda de la digitalización en el sector medioambiental, y especialmente en el mundo del residuo.
-            </p>
-            <p>
-              Creamos soluciones digitales para el sector, aprovechando la experiencia adquirida en la empresa matriz sobre el funcionamiento, las necesidades, expectativas, etc. de todos los actores implicados en la gestión de residuos.
-            </p>
-            <p>
-              Ofrecemos herramientas que garantizan la trazabilidad y aportan transparencia, con el objetivo de simplificar las labores administrativas, asegurar el cumplimiento legal y unificar criterios. Además permiten la conexión con herramientas externas agilizando la comunicación y facilitando la información en tiempo real a cualquier usuari@.
-            </p>
-            <p>
-              Siguiendo nuestro objetivo de innovación constante, aplicamos las tecnologías de Inteligencia artificial (machine learning, inteligencia generativa, chatbots...) para mejorar la automatización de procesos y la experiencia de usuario.
-            </p>
-            <p>
-              Adaptamos nuestros productos a la demanda de cualquier gestor, productor, transportista, agente… con independencia de sus volúmenes y tipologías de residuos.
-            </p>
-          </div>
-        </div>
-    </section>    
-    
-    <section class="seccion-fundamentos">
-      <h2 class="titulo-fundamentos">FUNDAMENTOS</h2>
-    
-      <div class="fundamentos-grid">
-        <div class="fundamento-item">
-          <h3>Control<br>documental</h3>
-          <img src="./imagenes/control-documental.png" alt="Control documental">
-        </div>
-        <div class="fundamento-item">
-          <h3>Conectividad</h3>
-          <img src="./imagenes/conectividad.png" alt="Conectividad">
-        </div>
-        <div class="fundamento-item">
-          <h3>Trazabilidad</h3>
-          <img src="./imagenes/trazabilidad.png" alt="Trazabilidad">
-        </div>
-        <div class="fundamento-item">
-          <h3>Monitorización<br>a tiempo real</h3>
-          <img src="./imagenes/monitorizacion.png" alt="Monitorización a tiempo real">
-        </div>
+  <section class="seccion-quienes">
+    <div class="contenido-quienes">
+      <div class="imagen-quienes">
+        <img src="./imagenes/logoia.png" alt="Inteligencia Artificial aplicada al medioambiente">
       </div>
+      <div class="texto-quienes">
+        <h2>QUIÉNES SOMOS</h2>
+        <p>
+          Inpronet Solutions es una empresa perteneciente al grupo Inproeco, surge por la necesidad de cubrir la actual demanda de la digitalización en el sector medioambiental, y especialmente en el mundo del residuo.
+        </p>
+        <p>
+          Creamos soluciones digitales para el sector, aprovechando la experiencia adquirida en la empresa matriz sobre el funcionamiento, las necesidades, expectativas, etc. de todos los actores implicados en la gestión de residuos.
+        </p>
+        <p>
+          Ofrecemos herramientas que garantizan la trazabilidad y aportan transparencia, con el objetivo de simplificar las labores administrativas, asegurar el cumplimiento legal y unificar criterios. Además permiten la conexión con herramientas externas agilizando la comunicación y facilitando la información en tiempo real a cualquier usuari@.
+        </p>
+        <p>
+          Siguiendo nuestro objetivo de innovación constante, aplicamos las tecnologías de Inteligencia artificial (machine learning, inteligencia generativa, chatbots...) para mejorar la automatización de procesos y la experiencia de usuario.
+        </p>
+        <p>
+          Adaptamos nuestros productos a la demanda de cualquier gestor, productor, transportista, agente… con independencia de sus volúmenes y tipologías de residuos.
+        </p>
+      </div>
+    </div>
+  </section>    
     
-      <p class="texto-fundamento">
-        Basándonos en estos 4 pilares, <strong>personalizamos nuestras herramientas</strong> para adaptarnos a las necesidades de cada cliente.
-      </p>
-    </section>  
+  <section class="seccion-fundamentos">
+    <h2 class="titulo-fundamentos">FUNDAMENTOS</h2>
+  
+    <div class="fundamentos-grid">
+      <div class="fundamento-item">
+        <h3>Control<br>documental</h3>
+        <img src="./imagenes/control-documental.png" alt="Control documental">
+      </div>
+      <div class="fundamento-item">
+        <h3>Conectividad</h3>
+        <img src="./imagenes/conectividad.png" alt="Conectividad">
+      </div>
+      <div class="fundamento-item">
+        <h3>Trazabilidad</h3>
+        <img src="./imagenes/trazabilidad.png" alt="Trazabilidad">
+      </div>
+      <div class="fundamento-item">
+        <h3>Monitorización<br>a tiempo real</h3>
+        <img src="./imagenes/monitorizacion.png" alt="Monitorización a tiempo real">
+      </div>
+    </div>
+  
+    <p class="texto-fundamento">
+      Basándonos en estos 4 pilares, <strong>personalizamos nuestras herramientas</strong> para adaptarnos a las necesidades de cada cliente.
+    </p>
+  </section>  
 
-    <section class="seccion-soluciones">
-      <div class="solucion fade-left">
-        <div class="solucion-img">
-          <img src="./imagenes/xtensa.png" alt="Xtensa">
-        </div>
-        <div class="solucion-texto">
-          <h3>RESPONSABILIDAD AMPLIADA</h3>
-          <p>Refuerce la confianza depositada en sus colaboradores a la hora de gestionar sus residuos.</p>
-        </div>
+  <section class="seccion-soluciones">
+    <div class="solucion fade-left">
+      <div class="solucion-img">
+        <img src="./imagenes/xtensa.png" alt="Xtensa">
       </div>
-    
-      <div class="solucion fade-right">
-        <div class="solucion-img">
-          <img src="./imagenes/scrapp.png" alt="SCRAPP">
-        </div>
-        <div class="solucion-texto">
-          <h3>ENTIDAD ADMINISTRADORA VIRTUAL</h3>
-          <p>Plataforma para la coordinación de cualquier SCRAP.</p>
-        </div>
+      <div class="solucion-texto">
+        <h3>RESPONSABILIDAD AMPLIADA</h3>
+        <p>Refuerce la confianza depositada en sus colaboradores a la hora de gestionar sus residuos.</p>
       </div>
-    
-      <div class="solucion fade-left">
-        <div class="solucion-img">
-          <img src="./imagenes/ramon.png" alt="RAMON-RIDI">
-          <img src="./imagenes/ridi.png" alt="">
-        </div>
-        <div class="solucion-texto">
-          <h3>INTELIGENCIA ARTIFICIAL</h3>
-          <p>Ampliamos nuestros horizontes con nuevas tecnologías para que nuestros clientes interactúen con datos inteligentes.</p>
-          <p>Nos situamos a la vanguardia del análisis inteligente con informes interactivos.</p>
-        </div>
+    </div>
+  
+    <div class="solucion fade-right">
+      <div class="solucion-img">
+        <img src="./imagenes/scrapp.png" alt="SCRAPP">
       </div>
-    
-      <div class="solucion fade-right">
-        <div class="solucion-img">
-          <img src="./imagenes/inpronet.png" alt="Inpronet">
-        </div>
-        <div class="solucion-texto">
-          <h3>NUESTRA EXPERIENCIA</h3>
-          <p>Soluciones desarrolladas tras años de experiencia para cubrir las necesidades de nuestros clientes e INPROECO.</p>
-        </div>
+      <div class="solucion-texto">
+        <h3>ENTIDAD ADMINISTRADORA VIRTUAL</h3>
+        <p>Plataforma para la coordinación de cualquier SCRAP.</p>
       </div>
-    </section>    
+    </div>
+  
+    <div class="solucion fade-left">
+      <div class="solucion-img">
+        <img src="./imagenes/ramon.png" alt="RAMON-RIDI">
+        <img src="./imagenes/ridi.png" alt="">
+      </div>
+      <div class="solucion-texto">
+        <h3>INTELIGENCIA ARTIFICIAL</h3>
+        <p>Ampliamos nuestros horizontes con nuevas tecnologías para que nuestros clientes interactúen con datos inteligentes.</p>
+        <p>Nos situamos a la vanguardia del análisis inteligente con informes interactivos.</p>
+      </div>
+    </div>
+  
+    <div class="solucion fade-right">
+      <div class="solucion-img">
+        <img src="./imagenes/inpronet.png" alt="Inpronet">
+      </div>
+      <div class="solucion-texto">
+        <h3>NUESTRA EXPERIENCIA</h3>
+        <p>Soluciones desarrolladas tras años de experiencia para cubrir las necesidades de nuestros clientes e INPROECO.</p>
+      </div>
+    </div>
+  </section>    
       
-    <section class="grupo-empresas">
-        <h2 class="titulo-principal">GRUPO INPROECO</h2>
-        <h3 class="subtitulo">BOYAL GLOBAL</h3>
-        <hr class="linea-divisoria" />
-        <div class="logos-empresas">
-            <img src="./imagenes/logoinproeco.png" alt="Inproeco" class="logoInproeco">
-            <img src="./imagenes/logoinp.png" alt="INP Solutions">
-            <img src="./imagenes/logoPartnerWaste.png" alt="Partner Waste" class="logoInproeco">
-            <img src="./imagenes/logoTde.png" alt="TDE">
-        </div>
-    </section>  
-    
-    <footer class="footer-inproeco">
-      <div class="footer-contenido">
-    
-        <div class="footer-col izquierda">
-          <ul>
-            <li><a href="politica-cookies.html">Política de Cookies</a></li>
-            <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
-            <li><a href="aviso-legal.html">Aviso Legal</a></li>
-            <li><a href="condiciones-compra.html">Condiciones de Compra </a></li>
-            <li><a href="certificados.html">Certificados</a></li>
-            <li><a href="seguridad-informacion.html">Política de Seguridad de la información</a></li>
-          </ul>
-        </div>
-    
-        <div class="footer-col">
-          <h4>GRUPO INPROECO</h4>
-          <ul>
-            <li><a href="https://inproeco.com/">INPROECO</a></li>
-            <li><a href="https://partnerwaste.com/">PARTNER WASTE</a></li>
-            <li><a href="https://inpronet.com/">INPRONET SOLUTIONS</a></li>
-            <li><a href="https://tde.es/">TDE</a></li>
-          </ul>
-        </div>
-    
-        <div class="footer-col">
-          <h4>PRODUCTOS Y<br>SERVICIOS</h4>
-          <ul>
-            <li><a href="https://inpronet.com/inpronet">INPRONET</a></li>
-            <li><a href="https://scrapp.es/">SCRAPP</a></li>
-            <li><a href="https://xtensa.es/">XTENSA</a></li>
-            <li><a href="https://inproget.es/">INPROGET</a></li>
-          </ul>
-        </div>
-    
-        <div class="footer-col datos-contacto">
-          <h4>INPRONET SOLUTIONS S.L.</h4>
-          <p>C/Fuerteventura 4, Oficina 3-7, 28703</p>
-          <p>San Sebastián de los Reyes, MADRID</p>
-          <p>916 517 247</p>
-          <p><a href="mailto:administracion@inpsolutions.com">administracion@inpsolutions.com</a></p>
-        </div>
-    
-        <div class="footer-col logo-social">
-          <img src="./imagenes/logoinp.png" alt="Logo Inproeco">
-          <div class="redes-sociales">
-            <a href="https://www.linkedin.com/company/inpronet-solutions/"><img src="./imagenes/logolinkedin.png" alt="LinkedIn"></a>
-            <a href="https://twitter.com/inpronet_"><img src="./imagenes/logox.png" alt="Twitter X"></a>
-            <a href="https://www.youtube.com/@inpronetsolutions"><img src="./imagenes/logoyoutube.png" alt="YouTube"></a>
-          </div>
-          <div class="sellos">
-            <img src="./imagenes/sello2.webp" alt="Sello B">
-          </div>
-        </div>
-    
+  <section class="grupo-empresas">
+    <h2 class="titulo-principal">GRUPO INPROECO</h2>
+    <h3 class="subtitulo">BOYAL GLOBAL</h3>
+    <hr class="linea-divisoria" />
+    <div class="logos-empresas">
+      <img src="./imagenes/logoinproeco.png" alt="Inproeco" class="logoInproeco">
+      <img src="./imagenes/logoinp.png" alt="INP Solutions">
+      <img src="./imagenes/logoPartnerWaste.png" alt="Partner Waste" class="logoInproeco">
+      <img src="./imagenes/logoTde.png" alt="TDE">
+    </div>
+  </section>  
+  
+  <footer class="footer-inproeco">
+    <div class="footer-contenido">
+  
+      <div class="footer-col izquierda">
+        <ul>
+          <li><a href="politica-cookies.html">Política de Cookies</a></li>
+          <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+          <li><a href="aviso-legal.html">Aviso Legal</a></li>
+          <li><a href="condiciones-compra.html">Condiciones de Compra </a></li>
+          <li><a href="certificados.html">Certificados</a></li>
+          <li><a href="seguridad-informacion.html">Política de Seguridad de la información</a></li>
+        </ul>
       </div>
+  
+      <div class="footer-col">
+        <h4>GRUPO INPROECO</h4>
+        <ul>
+          <li><a href="https://inproeco.com/">INPROECO</a></li>
+          <li><a href="https://partnerwaste.com/">PARTNER WASTE</a></li>
+          <li><a href="https://inpronet.com/">INPRONET SOLUTIONS</a></li>
+          <li><a href="https://tde.es/">TDE</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-col">
+        <h4>PRODUCTOS Y<br>SERVICIOS</h4>
+        <ul>
+          <li><a href="https://inpronet.com/inpronet">INPRONET</a></li>
+          <li><a href="https://scrapp.es/">SCRAPP</a></li>
+          <li><a href="https://xtensa.es/">XTENSA</a></li>
+          <li><a href="https://inproget.es/">INPROGET</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-col datos-contacto">
+        <h4>INPRONET SOLUTIONS S.L.</h4>
+        <p>C/Fuerteventura 4, Oficina 3-7, 28703</p>
+        <p>San Sebastián de los Reyes, MADRID</p>
+        <p>916 517 247</p>
+        <p><a href="mailto:administracion@inpsolutions.com">administracion@inpsolutions.com</a></p>
+      </div>
+  
+      <div class="footer-col logo-social">
+        <img src="./imagenes/logoinp.png" alt="Logo Inproeco">
+        <div class="redes-sociales">
+          <a href="https://www.linkedin.com/company/inpronet-solutions/"><img src="./imagenes/logolinkedin.png" alt="LinkedIn"></a>
+          <a href="https://twitter.com/inpronet_"><img src="./imagenes/logox.png" alt="Twitter X"></a>
+          <a href="https://www.youtube.com/@inpronetsolutions"><img src="./imagenes/logoyoutube.png" alt="YouTube"></a>
+        </div>
+        <div class="sellos">
+          <img src="./imagenes/sello2.webp" alt="Sello B">
+        </div>
+      </div>
+  
+    </div>
   </footer>
 
   <div class="modal-overlay" id="modalCertificaciones">
@@ -221,17 +332,188 @@
     });
   </script>
 
-    <script>
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-            observer.unobserve(entry.target); // para que no se repita
-          }
-        });
-      }, { threshold: 0.2 });
-    
-      document.querySelectorAll('.solucion').forEach(el => observer.observe(el));
-    </script>    
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target); // para que no se repita
+        }
+      });
+    }, { threshold: 0.2 });
+  
+    document.querySelectorAll('.solucion').forEach(el => observer.observe(el));
+  </script>    
+
+  <!-- =================== BARRA DE COOKIES =================== -->
+  <div id="ckbar" class="ckbar" role="region" aria-label="Aviso de cookies" aria-hidden="true">
+    <div class="ckbar__wrap">
+      <p>
+        Utilizamos cookies para garantizar que obtienes la mejor experiencia en nuestro sitio. 
+        Consulta la <a href="politica-privacidad.html">Política de Privacidad</a> y la 
+        <a href="politica-cookies.html">Política de Cookies</a>.
+      </p>
+      <div class="ckbar__btns">
+        <button id="ckPrefsBtn" class="ckbtn ckbtn--outline">Preferencias</button>
+        <button id="ckRejectBtn" class="ckbtn ckbtn--dark">Rechazar</button>
+        <button id="ckAcceptBtn" class="ckbtn ckbtn--primary">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================== MODAL DE PREFERENCIAS =================== -->
+  <div id="ckoverlay" class="ckoverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="ckTitle">
+    <div class="ckmodal" role="document">
+      <div class="ckmodal__header">
+        <h3 id="ckTitle" class="ckmodal__title">Elige qué tipo de cookies quieres aceptar</h3>
+        <button id="ckCloseModal" class="ckmodal__close" aria-label="Cerrar">×</button>
+      </div>
+
+      <div class="ckmodal__body">
+        <!-- Estrictamente necesarias -->
+        <div class="ckcat ckcat--locked">
+          <div class="ckcat__head">
+            <input type="checkbox" checked disabled>
+            <div>
+              <strong>Estrictamente necesarias</strong>
+              <div class="ck-muted">Estas cookies son necesarias para que el sitio funcione y no pueden desactivarse.</div>
+            </div>
+          </div>
+          <p class="ck-muted">Se usan para funciones básicas como seguridad, autenticación o preferencias esenciales.</p>
+        </div>
+
+        <!-- Funcionales -->
+        <div class="ckcat">
+          <div class="ckcat__head">
+            <input type="checkbox" id="ckFunctional">
+            <div>
+              <strong>Funcionales</strong>
+              <div class="ck-muted">Habilitan características adicionales y personalización del sitio.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analítica y estadísticas -->
+        <div class="ckcat">
+          <div class="ckcat__head">
+            <input type="checkbox" id="ckAnalytics">
+            <div>
+              <strong>Analítica y estadísticas</strong>
+              <div class="ck-muted">Nos permiten medir tráfico y rendimiento (p. ej., páginas vistas).</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Marketing y retargeting -->
+        <div class="ckcat">
+          <div class="ckcat__head">
+            <input type="checkbox" id="ckMarketing">
+            <div>
+              <strong>Marketing y retargeting</strong>
+              <div class="ck-muted">Usadas por nuestros socios publicitarios para mostrar anuncios relevantes.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="ckmodal__footer">
+        <button id="ckSaveChoice" class="ckbtn ckbtn--dark">Guardar mi elección</button>
+        <button id="ckAcceptAll" class="ckbtn ckbtn--green">Aceptar todo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================== LÓGICA DE COOKIES =================== -->
+  <script>
+    (function(){
+      const KEY = "inpsolutions_cookie_consent_v1";
+
+      const bar = document.getElementById('ckbar');
+      const overlay = document.getElementById('ckoverlay');
+
+      const btnPrefs = document.getElementById('ckPrefsBtn');
+      const btnReject = document.getElementById('ckRejectBtn');
+      const btnAccept = document.getElementById('ckAcceptBtn');
+
+      const btnCloseModal = document.getElementById('ckCloseModal');
+      const btnSaveChoice = document.getElementById('ckSaveChoice');
+      const btnAcceptAll = document.getElementById('ckAcceptAll');
+
+      const elFunctional = document.getElementById('ckFunctional');
+      const elAnalytics  = document.getElementById('ckAnalytics');
+      const elMarketing  = document.getElementById('ckMarketing');
+
+      function getConsent(){
+        try { return JSON.parse(localStorage.getItem(KEY)); } catch(e){ return null; }
+      }
+      function setConsent(val){
+        localStorage.setItem(KEY, JSON.stringify({ ...val, timestamp: new Date().toISOString() }));
+      }
+      function showBar(){ bar.setAttribute('aria-hidden','false'); }
+      function hideBar(){ bar.setAttribute('aria-hidden','true'); }
+      function openPrefs(){
+        const saved = getConsent();
+        elFunctional.checked = !!saved?.functional;
+        elAnalytics.checked  = !!saved?.analytics;
+        elMarketing.checked  = !!saved?.marketing;
+        overlay.setAttribute('aria-hidden','false');
+      }
+      function closePrefs(){ overlay.setAttribute('aria-hidden','true'); }
+
+      // Carga condicional de etiquetas según consentimiento
+      function applyConsent(c){
+        if(c.functional){ /* scripts funcionales */ }
+        if(c.analytics){
+          // Ejemplo GA4 (sustituir G-XXXX si procede)
+          // if(!document.getElementById('ga4-tag')){
+          //   const s1=document.createElement('script'); s1.id='ga4-tag'; s1.async=true;
+          //   s1.src='https://www.googletagmanager.com/gtag/js?id=G-XXXX'; document.head.appendChild(s1);
+          //   const s2=document.createElement('script'); s2.text =
+          //     "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}"+
+          //     "gtag('js', new Date()); gtag('config','G-XXXX',{'anonymize_ip':true});";
+          //   document.head.appendChild(s2);
+          // }
+        }
+        if(c.marketing){ /* píxeles/etiquetas de marketing */ }
+      }
+
+      // Barra
+      btnPrefs.addEventListener('click', openPrefs);
+      btnReject.addEventListener('click', () => {
+        const c = { essential:true, functional:false, analytics:false, marketing:false };
+        setConsent(c); hideBar(); applyConsent(c);
+      });
+      btnAccept.addEventListener('click', () => {
+        const c = { essential:true, functional:true, analytics:true, marketing:true };
+        setConsent(c); hideBar(); applyConsent(c);
+      });
+
+      // Modal
+      btnCloseModal.addEventListener('click', closePrefs);
+      overlay.addEventListener('click', e => { if(e.target === overlay) closePrefs(); });
+
+      btnSaveChoice.addEventListener('click', () => {
+        const c = {
+          essential:true,
+          functional: !!elFunctional.checked,
+          analytics:  !!elAnalytics.checked,
+          marketing:  !!elMarketing.checked
+        };
+        setConsent(c); applyConsent(c); closePrefs(); hideBar();
+      });
+      btnAcceptAll.addEventListener('click', () => {
+        const c = { essential:true, functional:true, analytics:true, marketing:true };
+        setConsent(c); applyConsent(c); closePrefs(); hideBar();
+      });
+
+      // Inicio
+      document.addEventListener('DOMContentLoaded', () => {
+        const saved = getConsent();
+        if(!saved){ showBar(); } else { applyConsent(saved); }
+      });
+    })();
+  </script>
+
 </body>
 </html>
