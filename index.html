@@ -1,26 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="INPSolutions">
+  <!-- Meta Descripción: -->
+  <meta name="description" content="Transformacion digital en materia medioambiental">
+  <!-- Meta Palabras -->
+  <meta name="keywords" content="Transformacion, Documentos, Digitalizacion, Transformacion Digital, INP Solutions, Control Documental, Trazabilidad, Monitorizacion">
+  <!-- Meta Fin -->
   <link rel="stylesheet" href="./css/es_index.css">
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/imagenes/favicon.ico" type="image/x-icon">
+
 
   <!-- ===== Estilos: Barra de cookies + Modal de preferencias ===== -->
   <style>
     :root{
       --c-primary:#1f775a;         /* VERDE corporativo para Aceptar */
-      --c-primary-600:#19664d;
-      --c-primary-700:#145641;
+      --c-primary-600:#1f775a;
+      --c-primary-700:#1f775a;
 
       --c-bg:#ffffff;
       --c-text:#1f2937;
       --c-muted:#6b7280;
-      --c-border:#e5e7eb;
+      --c-border:#ffffff;
 
-      --btn-dark:#222;             /* Rechazar oscuro */
-      --btn-dark-hover:#111;
+      --btn-dark:#1f775a;             /* Rechazar oscuro */
+      --btn-dark-hover:#1f775a;
 
       --overlay: rgba(0,0,0,.55);
       --panel-bg:#14171c;          /* modal oscuro */
@@ -50,7 +58,7 @@
     .ckbar__btns{ display:flex; gap:12px; align-items:center; }
 
     .ckbtn{ padding:10px 16px; border-radius:6px; font-weight:700; cursor:pointer; border:0; }
-    .ckbtn--outline{ background:#fff; border:2px solid var(--c-border); color:#000 !important; } /* Preferencias SIEMPRE blanco */
+    .ckbtn--outline{ background:#1f775a; border:2px solid var(--c-border); color:#fff !important; } /* Preferencias SIEMPRE blanco */
     .ckbtn--dark{ background:var(--btn-dark); color:#fff; }
     .ckbtn--dark:hover{ background:var(--btn-dark-hover); }
     .ckbtn--primary{ background:var(--c-primary); color:#fff; }
@@ -110,13 +118,35 @@
     /* Modo oscuro del sistema: mantener Preferencias en blanco */
     @media (prefers-color-scheme: dark){
       :root{
-        --c-bg:#111418; --c-text:#e6e7e9; --c-muted:#afb3b9; --c-border:#2a2f36;
+        --c-bg:#111418; --c-text:#e6e7e9; --c-muted:#afb3b9; --c-border:#111418;
       }
       .ckbar a{ color:#d0f1e4; }
-      .ckbtn--outline{ background:#fff; border-color:#e5e7eb; color:#000 !important; }
+    /* Mantener Preferencias en blanco también en dark mode */
+    /*.ckbtn--outline{ background:#fff; border-color:#e5e7eb; color:#000 !important; }/*
     }
+
   </style>
+  <link href="css/footer.css" rel="stylesheet" type="text/css">
+  <style type="text/css">
+  body,td,th {
+    font-family: "Josefin Sans", sans-serif;
+}
+a:link {
+    text-decoration: none;
+}
+a:visited {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
+a:active {
+    text-decoration: none;
+}
+  </style>
+  <link href="css/empresas_footer_index.css" rel="stylesheet" type="text/css">
   <!-- ===== Fin estilos ===== -->
+<title>INP Solutions</title>
 </head>
 <body>
 
@@ -124,8 +154,8 @@
     <div class="nav-inpsolutions">
       <a href="./index.html"><img src="./imagenes/logoinp.png" alt="Logo INP Solutions" class="logo-inp"></a>
       <nav class="menu-inp">
-        <a href="#">XTENSA</a>
-        <a href="#">SCRAPP</a>
+        <a href="https://www.xtensa.es" target="_blank">XTENSA</a>
+        <a href="https://www.scrapp.es" target="_blank">SCRAPP</a>
         <a href="./ia.html">IA</a>
         <a href="./inpronet.html">INPRONET</a>
       </nav>
@@ -145,7 +175,7 @@
       <div class="texto-quienes">
         <h2>QUIÉNES SOMOS</h2>
         <p>
-          Inpronet Solutions es una empresa perteneciente al grupo Inproeco, surge por la necesidad de cubrir la actual demanda de la digitalización en el sector medioambiental, y especialmente en el mundo del residuo.
+          Inpronet Solutions es una empresa perteneciente al grupo Inpwaste, surge por la necesidad de cubrir la actual demanda de la digitalización en el sector medioambiental, y especialmente en el mundo del residuo.
         </p>
         <p>
           Creamos soluciones digitales para el sector, aprovechando la experiencia adquirida en la empresa matriz sobre el funcionamiento, las necesidades, expectativas, etc. de todos los actores implicados en la gestión de residuos.
@@ -223,7 +253,7 @@
       </div>
     </div>
   
-    <div class="solucion fade-right">
+ <!--   <div class="solucion fade-right">
       <div class="solucion-img">
         <img src="./imagenes/inpronet.png" alt="Inpronet">
       </div>
@@ -231,76 +261,85 @@
         <h3>NUESTRA EXPERIENCIA</h3>
         <p>Soluciones desarrolladas tras años de experiencia para cubrir las necesidades de nuestros clientes e INPROECO.</p>
       </div>
-    </div>
+    </div> -->
   </section>    
-      
-  <section class="grupo-empresas">
+<center>
+<a href="https://www.grupoinpwaste.com/" target="_blank"><img src="imagenes/inpwaste.png" width="500" height="136" alt=""/></a><br>
+    <hr class="linea-divisoria" />
+	</center>      
+<!--  <section class="grupo-empresas">
     <h2 class="titulo-principal">GRUPO INPROECO</h2>
     <h3 class="subtitulo">BOYAL GLOBAL</h3>
     <hr class="linea-divisoria" />
-    <div class="logos-empresas">
-      <img src="./imagenes/logoinproeco.png" alt="Inproeco" class="logoInproeco">
-      <img src="./imagenes/logoinp.png" alt="INP Solutions">
-      <img src="./imagenes/logoPartnerWaste.png" alt="Partner Waste" class="logoInproeco">
-      <img src="./imagenes/logoTde.png" alt="TDE">
-    </div>
-  </section>  
-  
+	</section> -->
+
+	<section class="logos-empresas">
+        <a href="https://www.inproeco.com/" target="_blank"><img src="imagenes/logoinproecoempresas.png" alt="" width="306" height="96" class="logoInproeco"/></a>
+		<a href="index.html"><img src="imagenes/logoinpfooterempresas.png" alt="" width="306" height="96" class="logoInproeco"/></a>
+		<a href="https://www.partnerwaste.com/" target="_blank"><img src="imagenes/logofooter.png" alt="" width="288" height="90" class="logoInproeco"/></a>
+	</section>
+
+
   <footer class="footer-inproeco">
-    <div class="footer-contenido">
-  
+    <div class="footer-contenido" id="footer">
+
       <div class="footer-col izquierda">
         <ul>
-          <li><a href="politica-cookies.html">Política de Cookies</a></li>
-          <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
-          <li><a href="aviso-legal.html">Aviso Legal</a></li>
-          <li><a href="condiciones-compra.html">Condiciones de Compra </a></li>
-          <li><a href="certificados.html">Certificados</a></li>
-          <li><a href="seguridad-informacion.html">Política de Seguridad de la información</a></li>
+          <li><a href="politica-cookies.html" class="modal-secundario">Política de Cookies</a></li>
+          <li><a href="politica-privacidad.html">Política de Privacidad<span style="font-style: 100"></span></a></li>
+          <li><span style="font-style: 100"><a href="aviso-legal.html">Aviso Legal</a></span></li>
+          <li><span style="font-style: 100"><a href="politica-medioambiente.html">Política de calidad y medioambiente</a></span></li>
+          <li><span style="font-style: 100"><a href="seguridad-informacion.html">Política de Seguridad y Privacidad de la información</a></span></li>
         </ul>
       </div>
-  
+
       <div class="footer-col">
-        <h4>GRUPO INPROECO</h4>
+        <h4>GRUPO INPWASTE</h4>
         <ul>
-          <li><a href="https://inproeco.com/">INPROECO</a></li>
-          <li><a href="https://partnerwaste.com/">PARTNER WASTE</a></li>
-          <li><a href="https://inpronet.com/">INPRONET SOLUTIONS</a></li>
-          <li><a href="https://tde.es/">TDE</a></li>
+              <li><a href="https://www.inproeco.com" target="_blank">INPROECO</a></li>
+              <li><a href="https://www.partnerwaste.com/" target="_blank">PARTNER WASTE</a></li>
+              <li><a href="index.html">INPRONET SOLUTIONS</a></li>
+ <!--             <li><a href="#">TDE</a></li>-->
         </ul>
       </div>
-  
+
       <div class="footer-col">
-        <h4>PRODUCTOS Y<br>SERVICIOS</h4>
+        <h4>PRODUCTOS Y SERVICIOS</h4>
         <ul>
-          <li><a href="https://inpronet.com/inpronet">INPRONET</a></li>
-          <li><a href="https://scrapp.es/">SCRAPP</a></li>
-          <li><a href="https://xtensa.es/">XTENSA</a></li>
-          <li><a href="https://inproget.es/">INPROGET</a></li>
+            <li><a href="https://www.inproeco.com/inpronet.html" target="_blank">INPRONET</a></li>
+            <li><a href="https://www.scrapp.es/" target="_blank">SCRAPP</a></li>
+            <li><a href="https://www.xtensa.es/" target="_blank">XTENSA</a></li>
+            <li><a href="https://www.partnerwaste.com/inproget.html" target="_blank">INPROGEST</a></li>
+			<li><a href="https://www.probatus.es" target="_blank">PROBATUS</a></li>
         </ul>
       </div>
-  
+
       <div class="footer-col datos-contacto">
-        <h4>INPRONET SOLUTIONS S.L.</h4>
-        <p>C/Fuerteventura 4, Oficina 3-7, 28703</p>
-        <p>San Sebastián de los Reyes, MADRID</p>
+        <h4>
+INPRONET SOLUTIONS S.L.</h4>
+        <p>C/Fuerteventura 4, Oficina 3-7, 
+        28703</p>
+        <p>San Sebastián de los Reyes, 
+        MADRID</p>
         <p>916 517 247</p>
         <p><a href="mailto:administracion@inpsolutions.com">administracion@inpsolutions.com</a></p>
       </div>
-  
-      <div class="footer-col logo-social">
-        <img src="./imagenes/logoinp.png" alt="Logo Inproeco">
+
+      <div class="footer-col logo-social"> <a href="index.html"><img src="imagenes/logoinpfooter.png" alt="Logo Inproeco"></a>
         <div class="redes-sociales">
-          <a href="https://www.linkedin.com/company/inpronet-solutions/"><img src="./imagenes/logolinkedin.png" alt="LinkedIn"></a>
-          <a href="https://twitter.com/inpronet_"><img src="./imagenes/logox.png" alt="Twitter X"></a>
-          <a href="https://www.youtube.com/@inpronetsolutions"><img src="./imagenes/logoyoutube.png" alt="YouTube"></a>
+        <a href="#"><img src="imagenes/logolinkedin.png" alt="LinkedIn"></a>
+        <a href="#"><img src="imagenes/logox.png" alt="Twitter X"></a>
+		<a href="#"><img src="imagenes/logoinstagram.png" alt="Instagra"></a>
+		<a href="#"><img src="imagenes/logoyoutube.png" alt="Youtube"></a>
         </div>
-        <div class="sellos">
-          <img src="./imagenes/sello2.webp" alt="Sello B">
+		  <div class="sellos">
+          <img src="imagenes/sello2.png" alt="Sello B">
         </div>
+<!--		  <div class="sellos">
+          <img src="imagenes/sellowhite.png" alt="Sello B">-->
       </div>
-  
-    </div>
+      </div>
+
   </footer>
 
   <div class="modal-overlay" id="modalCertificaciones">
@@ -354,9 +393,9 @@
         <a href="politica-cookies.html">Política de Cookies</a>.
       </p>
       <div class="ckbar__btns">
-        <button id="ckPrefsBtn" class="ckbtn ckbtn--outline">Preferencias</button>
-        <button id="ckRejectBtn" class="ckbtn ckbtn--dark">Rechazar</button>
-        <button id="ckAcceptBtn" class="ckbtn ckbtn--primary">Aceptar</button>
+        <button id="ckPrefsBtn" class="ckbtn ckbtn--outline" style="width: 120px; height: 50px; padding: 10px 20px;">Preferencias</button>
+        <button id="ckRejectBtn" class="ckbtn ckbtn--dark" style="width: 120px; height: 50px; padding: 10px 20px;">Rechazar</button>
+        <button id="ckAcceptBtn" class="ckbtn ckbtn--primary" style="width: 120px; height: 50px; padding: 10px 20px;">Aceptar</button>
       </div>
     </div>
   </div>
@@ -418,8 +457,8 @@
       </div>
 
       <div class="ckmodal__footer">
-        <button id="ckSaveChoice" class="ckbtn ckbtn--dark">Guardar mi elección</button>
-        <button id="ckAcceptAll" class="ckbtn ckbtn--green">Aceptar todo</button>
+		<button id="ckSaveChoice" class="ckbtn ckbtn--dark" style="width: 180px; height: 40px; padding: 10px 20px;">Guardar mi elección</button>
+        <button id="ckAcceptAll" class="ckbtn ckbtn--green" style="width: 180px; height: 40px; padding: 10px 20px;">Aceptar todo</button>
       </div>
     </div>
   </div>

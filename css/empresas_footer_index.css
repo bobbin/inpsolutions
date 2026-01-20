@@ -1,0 +1,40 @@
+.linea-divisoria {
+  width: 35%;
+  margin: 0 auto 40px;
+  border: 1px solid #333;
+}
+
+.logos-empresas {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.logos-empresas img {
+  width: auto;
+  max-width: 220px;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.logoInproeco {
+  width: 250px !important;
+  max-width: none !important;
+}
+
+.logos-empresas img:hover {
+  transform: scale(1.05);
+}
+.grupo-empresas {
+  text-align: center;
+  background-color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 40px;
+}
+
+ a {
+    padding-left: 0%;
+ }
